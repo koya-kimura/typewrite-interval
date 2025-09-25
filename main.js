@@ -65,7 +65,7 @@ class TypeWrite {
         for (let i = 0; i < performerText.length; i ++){
             const char = performerText.charAt(i);
 
-            if (char == "\n" || currentLine.length > columnNum - 1 || i == performerText.length - 1){
+            if (char == "\n" || currentLine.length > columnNum - 1){
                 let i = 0;
                 while (currentLine.length < columnNum) {
                     currentLine.push({ char: [..."FLOW"][i%4], isPerformerText: false });
@@ -80,7 +80,12 @@ class TypeWrite {
             }
         }
 
-        console.log(this.displayText);
+        let i = 0;
+        while (currentLine.length < columnNum) {
+            currentLine.push({ char: [..."FLOW"][i % 4], isPerformerText: false });
+            i++;
+        }
+        this.displayText.push(currentLine);
     }
 
     draw(){
