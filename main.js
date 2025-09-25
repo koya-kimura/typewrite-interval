@@ -49,7 +49,7 @@ class TypeWrite {
 
         this.typeIndex = 0;
         this.showStartTime = 0;
-        this.showMaxTime = 30000; // ミリ秒
+        this.showMaxTime = 60000; // ミリ秒
 
         this.rotateAngle = 0;
 
@@ -65,7 +65,7 @@ class TypeWrite {
         for (let i = 0; i < performerText.length; i ++){
             const char = performerText.charAt(i);
 
-            if (char == "\n" || currentLine.length > columnNum || i == performerText.length - 1){
+            if (char == "\n" || currentLine.length > columnNum - 1 || i == performerText.length - 1){
                 let i = 0;
                 while (currentLine.length < columnNum) {
                     currentLine.push({ char: [..."FLOW"][i%4], isPerformerText: false });
@@ -79,6 +79,8 @@ class TypeWrite {
                 currentLine.push({ char: char, isPerformerText: true });
             }
         }
+
+        console.log(this.displayText);
     }
 
     draw(){
