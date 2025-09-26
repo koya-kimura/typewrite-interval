@@ -10,15 +10,20 @@ let rowNum;
 
 let typeWrite;
 
+let bgm;
+
 function preload() {
     font = loadFont("font/M-NijimiMincho.otf");
     performersData = loadJSON("data/performers.json");
+    bgm = loadSound("audio/bgm.wav");
 }
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     textFont(font);
     noCursor();
+
+    userStartAudio();
 
     gridSize = (width * (1 - canvasMarginScale)) / columnNum;
     rowNum = floor(height * (1 - canvasMarginScale) / gridSize);
@@ -170,6 +175,13 @@ class TypeWrite {
 function keyPressed(){
     if(keyCode == 32){
         fullscreen(true);
+    }
+    if(keyCode == 13){ // Enter
+        if (!bgm.isPlaying()){
+            bgm.loop();
+        } else {
+            bgm.stop();
+        }
     }
 }
 
