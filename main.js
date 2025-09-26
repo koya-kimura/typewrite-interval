@@ -11,6 +11,7 @@ let rowNum;
 let typeWrite;
 
 let bgm;
+let fft;
 
 function preload() {
     font = loadFont("font/M-NijimiMincho.otf");
@@ -24,6 +25,7 @@ function setup() {
     noCursor();
 
     userStartAudio();
+    fft = new p5.FFT();
 
     gridSize = (width * (1 - canvasMarginScale)) / columnNum;
     rowNum = floor(height * (1 - canvasMarginScale) / gridSize);
@@ -33,6 +35,27 @@ function setup() {
 
 function draw() {
     background(0);
+
+    fft.analyze();
+    const bass = fft.getEnergy("bass");
+    const lowMid = fft.getEnergy("lowMid");
+    const mid = fft.getEnergy("mid");
+    const highMid = fft.getEnergy("highMid");
+    const treble = fft.getEnergy("treble");
+    const spm = [bass, highMid, mid, lowMid, treble];
+
+    push();
+    for (let i = 0; i < spm.length; i++) {
+        const s = map(spm[i], 0, 255, 0, gridSize * 2);
+        const x = width * canvasMarginScale * 0.5 + (width * (1 - canvasMarginScale)) / (spm.length - 1) * i;
+        const y = height * 0.5;
+
+        noStroke();
+        fill(255, 30);
+        strokeWeight(min(width, height) * 0.002);
+        ellipse(x, y, s, s);
+    }
+    pop();
 
     push();
     typeWrite.draw();
